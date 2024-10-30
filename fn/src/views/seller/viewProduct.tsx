@@ -19,14 +19,9 @@ interface Product {
   expiryDate: string;
 }
 
-interface Collection {
-  id: string;
-  name: string;
-}
 
 const ViewProducts = () => {
-  const [collections, setCollections] = useState<Collection[]>([]);
-  const [selectedCollection, setSelectedCollection] = useState<string | null>(
+  const [selectedCollection] = useState<string | null>(
     null,
   );
   const products:Product[]=[{
@@ -92,16 +87,11 @@ const ViewProducts = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const notify = (message: string) => toast(message);
   const client = axiosClient();
 
   useEffect(() => {
     const fetchCollections = async () => {
       try {
-        const response = await client.get<{ collections: Collection[] }>(
-          "/collections",
-        );
-        setCollections(response.data.collections);
       } catch (err: any) {
         // notify(
         //   err.response
@@ -152,13 +142,7 @@ const ViewProducts = () => {
     }
   };
 
-  const handleCollectionChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    const selectedValue = event.target.value;
-    setSelectedCollection(selectedValue === "" ? null : selectedValue);
-    setPage(1);
-  };
+
 
   const handleDelete = async (id: string) => {
     setIsLoading(true);

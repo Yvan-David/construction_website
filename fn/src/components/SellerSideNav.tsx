@@ -1,4 +1,4 @@
-import profileImage from "../assets/images/profileImage.svg";
+
 
 import React, { useEffect, useState } from "react";
 import Logo from "../assets/images/Screenshot from 2024-10-30 21-33-27.png";
@@ -6,23 +6,13 @@ import { CiSearch } from "react-icons/ci";
 
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
-import axiosClient from "../hooks/AxiosInstance";
+
 import { useNavigate } from "react-router-dom";
 
 import { toast } from "react-toastify";
 
-import { RootState } from "../redux/store";
-import { useSelector } from "react-redux";
 
 
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  userRole: string;
-  status: string;
-  profileImageUrl: string;
-}
 interface InputProps {
   heading?: string;
   subheading?: string;
@@ -31,30 +21,19 @@ interface InputProps {
 }
 
 const DashBoardSideBar: React.FC<InputProps> = () => {
-  const [isSelected, setIsSelected] = useState<string>("");
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
-  const [isChatOpen, setIsChatOpen] = useState(false);
 
-  const unreadMessagesCount = useSelector(
-    (state: RootState) => state.chat.unreadMessagesCount,
-  );
+
   const navigate = useNavigate();
   const notify = (message: string) => toast(message);
-  const toggleChat = () => {
-    setIsChatOpen(!isChatOpen);
-  };
-  const client = axiosClient();
+
   const fetchUserProfile = async () => {
     try {
-      const response = await client.get("/users/profile");
-      setUser(response.data);
+
     } catch (err: any) {
       notify(err.response ? err : "Fetching users failed");
     } finally {
-      setIsLoading(false);
+
     }
   };
   const navigateToHome = () =>{

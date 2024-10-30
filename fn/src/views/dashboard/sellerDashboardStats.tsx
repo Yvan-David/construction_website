@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import { FaBoxOpen, FaDollarSign, FaShoppingCart } from "react-icons/fa";
+import { useEffect } from "react";
+
 import axiosClient from "../../hooks/AxiosInstance";
 import { toast } from "react-toastify";
 
 const SellerDashboardStats = () => {
-  const [totalCollections, setTotalCollections] = useState(0);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const notify = (message: string) => toast(message);
 
   const client = axiosClient();
@@ -13,7 +12,7 @@ const SellerDashboardStats = () => {
   useEffect(() => {
     const fetchCollections = async () => {
       try {
-        setIsLoading(true);
+
         const response = await client.get("/collections");
         const { totalPages, limit } = response.data.pagination;
         let collectionsCount = response.data.collections.length;
@@ -21,34 +20,16 @@ const SellerDashboardStats = () => {
           const res = await client.get(`/collections?page=${page}&limit=${limit}`);
           collectionsCount += res.data.collections.length;
         }
-        setTotalCollections(collectionsCount);
       } catch (err: any) {
         notify(err.response ? err.response.data.message : "Fetching collections failed");
       } finally {
-        setIsLoading(false);
       }
     };
 
     fetchCollections();
   }, []);
 
-  const stats = [
-    {
-      title: "Total Collections",
-      value: totalCollections,
-      icon: <FaBoxOpen className="text-green-500" />,
-    },
-    {
-      title: "Total Sales",
-      value: 20000,
-      icon: <FaDollarSign className="text-yellow-500" />,
-    },
-    {
-      title: "Total Orders",
-      value: 1500,
-      icon: <FaShoppingCart className="text-red-500" />,
-    },
-  ];
+
 
   return (
     <div className="bg-white shadow-md rounded-md p-4 flex-1 text-xs">

@@ -24,15 +24,10 @@ interface Product {
 
 const Home: React.FC = () => {
   const [newArrivalProducts, setNewArrivalProducts] = useState<Product[]>([]);
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [newArrivalPage, setNewArrivalPage] = useState(1);
   const [featuredPage, setFeaturedPage] = useState(2);
-  const [recommendedProducts, setRecommendedProducts] = useState<Product[]>([]);
-  const [recommendedPage, setRecommendedPage] = useState(1);
-  const [hasMoreRecommended, setHasMoreRecommended] = useState(true);
-  const [isLoadingRecommended, setIsLoadingRecommended] = useState(false);
-  const productsPerPage = 8;
+  const [recommendedPage] = useState(1);
   const client = axiosClient();
 
   const fetchNewArrivalProducts = async (page: number) => {
@@ -46,10 +41,8 @@ const Home: React.FC = () => {
     }
   };
 
-  const fetchFeaturedProducts = async (page: number) => {
+  const fetchFeaturedProducts = async () => {
     try {
-      const response = await client.get(`/collections/products/all?page=${page}`);
-      setFeaturedProducts(response.data.products);
     } catch (error) {
       console.error("Error fetching featured products:", error);
     } finally {
@@ -57,26 +50,18 @@ const Home: React.FC = () => {
     }
   };
 
-  const fetchRecommendedProducts = async (page: number) => {
-    setIsLoadingRecommended(true);
+  const fetchRecommendedProducts = async () => {
   try {
-    const response = await client.get(
-      `/collections/products?page=${page}&limit=${productsPerPage}`,
-    );
-    const newProducts = response.data.products;
-    setRecommendedProducts(newProducts);
-    setHasMoreRecommended(newProducts.length === productsPerPage)
   } catch (error) {
     console.error("Error fetching recommended products:", error);
   } finally {
-    setIsLoadingRecommended(false);
   }
 };
 
   useEffect(() => {
     fetchNewArrivalProducts(newArrivalPage);
-    fetchFeaturedProducts(featuredPage);
-    fetchRecommendedProducts(1); 
+    fetchFeaturedProducts();
+    fetchRecommendedProducts(); 
 
     const intervalId = setInterval(() => {
       setNewArrivalPage((prevPage) => (prevPage === 1 ? 2 : 1));
@@ -89,25 +74,17 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     fetchNewArrivalProducts(newArrivalPage);
-    fetchFeaturedProducts(featuredPage);
+    fetchFeaturedProducts();
     // fetchRecommendedProducts(recommendedPage)
   }, [newArrivalPage, featuredPage]);
 
    useEffect(() => {
      if (recommendedPage > 1) {
-       fetchRecommendedProducts(recommendedPage);
+       fetchRecommendedProducts();
      }
    }, [recommendedPage]);
 
-  const handlePreviousRecommendations = () => {
-    if (recommendedPage > 1) {
-      setRecommendedPage((prevPage) => prevPage - 1);
-    }
-  };
 
-  const handleNextRecommendations = () => {
-    setRecommendedPage((prevPage) => prevPage + 1);
-  };
 
   return (
     <div className="main-container px-10 py-5 flex flex-col gap-5">
@@ -145,7 +122,7 @@ const Home: React.FC = () => {
             <p>Loading...</p>
           ) : (
             newArrivalProducts.length > 0 ? (
-              newArrivalProducts.map((product) => (
+              newArrivalProducts.map(() => (
                 <CollectionCard
                 Image={Hero2}
                 name="Materials"

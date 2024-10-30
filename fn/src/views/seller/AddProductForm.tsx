@@ -1,9 +1,7 @@
 import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import SelectCollection from "./SelectCollection";
 import Button from "../../components/Button";
-import CreateColletion from "./CreateColletion";
 import {  ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useAxiosClient from "../../hooks/AxiosInstance";
@@ -36,7 +34,6 @@ const validationSchema = Yup.object({
 
 const AddProductForm = () => {
   const [files, setFiles] = React.useState<File[]>([]);
-  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const axiosClient = useAxiosClient();
   
   const handleSubmit = async(product: Product)=>{
@@ -72,9 +69,7 @@ const AddProductForm = () => {
     }
   }
 
-  const handleAddOption = () => {
-    setIsModalOpen(false);
-  };
+
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {

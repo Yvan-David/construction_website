@@ -34,20 +34,15 @@ const Navbar: React.FC<NavbarProps> = (props) => {
     shallowEqual,
   );
 
-  const unreadMessagesCount = useSelector(
-    (state: RootState) => state.chat.unreadMessagesCount,
-  );
-  const [isChatOpen, setIsChatOpen] = useState(false);
+
+
   const dispatch = useDispatch();
 
-  const toggleChat = () => {
-    setIsChatOpen(!isChatOpen);
-  };
-  const { count } = useSelector((state: any) => state.cart);
-  const wishListCount = useSelector((state: any) => state.wishList?.count ?? 0);
+
+
   const [burgerShown, setIsBurgerShown] = useState(props.burgerShown || false);
   const [showSearch, setShowSearch] = useState(props.showSearch || false);
-  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+
 
   const handleLogout = async () => {
     try {
@@ -210,7 +205,6 @@ const Navbar: React.FC<NavbarProps> = (props) => {
                   className="text-lg"
                   onClick={() => {
                     setIsBurgerShown(false);
-                    setIsModalOpen(true);
                   }}
                 >
                   {/* <div className="flex-between justify-center space-x-1 p-2">

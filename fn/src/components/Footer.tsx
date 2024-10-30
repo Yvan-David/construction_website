@@ -1,4 +1,3 @@
-import Logo from "../assets/images/Bit.Shop-white.svg"
 import { Link } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import { CiLinkedin } from "react-icons/ci";

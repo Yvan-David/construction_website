@@ -14,10 +14,7 @@ import {
 } from "react-icons/io5";
 
 import { RiSettings3Fill, RiSettings3Line } from "react-icons/ri";
-import {
-  IoIosNotifications,
-  IoIosNotificationsOutline,
-} from "react-icons/io";
+
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 import DashboardButton from "./DashBoardButton";
@@ -52,7 +49,6 @@ const DashBoardSideBar: React.FC<InputProps> = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const unreadMessagesCount = useSelector(
     (state: RootState) => state.chat.unreadMessagesCount,
