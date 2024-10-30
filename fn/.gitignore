@@ -1,0 +1,15 @@
+node_modules/
+dist/
+
+/dist
+
+coverage
+./coverage
+
+.env
+./.env
+
+*storybook.log
+*.stories.tsx
+
+.vscode
